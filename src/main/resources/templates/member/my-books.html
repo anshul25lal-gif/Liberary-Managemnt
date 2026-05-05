@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout('My Books', ~{::main})}">
+<body>
+<main>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-bookmark-fill me-2 text-primary"></i>My Books</h4>
+    <a th:href="@{/catalog}" class="btn btn-primary btn-sm">
+        <i class="bi bi-search me-1"></i>Browse Catalog
+    </a>
+</div>
+
+<!-- Unpaid Fine Alert -->
+<div th:if="${unpaidFine > 0}" class="alert alert-warning rounded-4 d-flex align-items-center gap-2 mb-4">
+    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+    <div>
+        You have unpaid fines totalling <strong>₹<span th:text="${#numbers.formatDecimal(unpaidFine, 1, 2)}"></span></strong>.
+        Please visit the library counter to clear your dues.
+    </div>
+</div>
+
+<!-- Currently Borrowed -->
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+    <div class="card-header bg-white border-0 pt-3">
+        <h6 class="fw-semibold mb-0">
+            <i class="bi bi-arrow-up-circle me-2 text-primary"></i>Currently Borrowed
+            <span class="badge bg-primary ms-1" th:text="${#lists.size(activeBooks)}"></span>
+        </h6>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3">Book Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(activeBooks)}">
+                        <td colspan="6" class="text-center text-muted py-4">No active borrowings.</td>
+                    </tr>
+                    <tr th:each="t : ${activeBooks}">
+                        <td class="ps-3 fw-medium" th:text="${t.book.title}"></td>
+                        <td th:text="${t.book.author}"></td>
+                        <td><span class="badge bg-secondary" th:text="${t.book.category}"></span></td>
+                        <td th:text="${t.issueDate}"></td>
+                        <td th:classappend="${t.dueDate.isBefore(today)} ? 'text-danger fw-bold'"
+                            th:text="${t.dueDate}"></td>
+                        <td>
+                            <span th:if="${t.dueDate.isBefore(today)}" class="badge bg-danger">
+                                <i class="bi bi-exclamation-triangle me-1"></i>Overdue
+                            </span>
+                            <span th:if="${!t.dueDate.isBefore(today)}" class="badge bg-primary">Active</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Borrowing History -->
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header bg-white border-0 pt-3">
+        <h6 class="fw-semibold mb-0"><i class="bi bi-clock-history me-2 text-secondary"></i>Borrowing History</h6>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3">Book Title</th>
+                        <th>Author</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                        <th>Fine</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(allTransactions)}">
+                        <td colspan="7" class="text-center text-muted py-4">No borrowing history yet.</td>
+                    </tr>
+                    <tr th:each="t : ${allTransactions}">
+                        <td class="ps-3 fw-medium" th:text="${t.book.title}"></td>
+                        <td class="text-muted" th:text="${t.book.author}"></td>
+                        <td th:text="${t.issueDate}"></td>
+                        <td th:text="${t.dueDate}"></td>
+                        <td th:text="${t.returnDate ?: '—'}"></td>
+                        <td>
+                            <span th:if="${t.fineAmount > 0}"
+                                  th:classappend="${t.finePaid} ? 'text-success' : 'text-danger'"
+                                  class="fw-medium">
+                                ₹<span th:text="${#numbers.formatDecimal(t.fineAmount, 1, 2)}"></span>
+                                <span th:if="${t.finePaid}" class="badge bg-success ms-1 small">Paid</span>
+                                <span th:if="${!t.finePaid}" class="badge bg-danger ms-1 small">Due</span>
+                            </span>
+                            <span th:if="${t.fineAmount == 0}" class="text-muted">—</span>
+                        </td>
+                        <td>
+                            <span th:switch="${t.status.name()}">
+                                <span th:case="'ISSUED'" class="badge bg-primary">Issued</span>
+                                <span th:case="'RETURNED'" class="badge bg-success">Returned</span>
+                                <span th:case="'OVERDUE'" class="badge bg-danger">Overdue</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</main>
+</body>
+</html>

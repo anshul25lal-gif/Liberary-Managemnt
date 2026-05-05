@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout('Transactions', ~{::main})}">
+<body>
+<main>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-list-check me-2 text-primary"></i>All Transactions</h4>
+    <a th:href="@{/admin/issue-book}" class="btn btn-primary btn-sm">
+        <i class="bi bi-plus-circle me-1"></i>Issue New Book
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3">#</th>
+                        <th>Member</th>
+                        <th>Book</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                        <th>Fine</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${transactions.isEmpty()}">
+                        <td colspan="9" class="text-center text-muted py-5">
+                            <i class="bi bi-inbox fs-1 d-block mb-2"></i>No transactions found.
+                        </td>
+                    </tr>
+                    <tr th:each="t : ${transactions}">
+                        <td class="ps-3 text-muted small" th:text="${t.id}"></td>
+                        <td>
+                            <div class="fw-medium" th:text="${t.user.fullName}"></div>
+                            <div class="text-muted small" th:text="'@' + ${t.user.username}"></div>
+                        </td>
+                        <td>
+                            <div class="fw-medium" th:text="${t.book.title}"></div>
+                            <div class="text-muted small" th:text="${t.book.author}"></div>
+                        </td>
+                        <td th:text="${t.issueDate}"></td>
+                        <td th:text="${t.dueDate}"
+                            th:classappend="${t.status.name() != 'RETURNED' and t.dueDate.isBefore(#temporals.createNow().toLocalDate())} ? 'text-danger fw-bold'">
+                        </td>
+                        <td th:text="${t.returnDate ?: '—'}" class="text-muted"></td>
+                        <td>
+                            <span th:if="${t.fineAmount > 0}"
+                                  th:classappend="${t.finePaid} ? 'text-success' : 'text-danger'"
+                                  class="fw-medium">
+                                ₹<span th:text="${#numbers.formatDecimal(t.fineAmount, 1, 2)}"></span>
+                                <span th:if="${t.finePaid}" class="badge bg-success ms-1">Paid</span>
+                            </span>
+                            <span th:if="${t.fineAmount == 0}" class="text-muted">—</span>
+                        </td>
+                        <td>
+                            <span th:switch="${t.status.name()}">
+                                <span th:case="'ISSUED'" class="badge bg-primary">Issued</span>
+                                <span th:case="'RETURNED'" class="badge bg-success">Returned</span>
+                                <span th:case="'OVERDUE'" class="badge bg-danger">Overdue</span>
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <!-- Return button — only for active/overdue -->
+                            <a th:if="${t.status.name() != 'RETURNED'}"
+                               th:href="@{/admin/transactions/{id}/return(id=${t.id})}"
+                               class="btn btn-sm btn-outline-success me-1"
+                               title="Process Return"
+                               onclick="return confirm('Mark this book as returned?')">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </a>
+                            <!-- Mark fine paid — only if unpaid fine exists -->
+                            <a th:if="${t.fineAmount > 0 and !t.finePaid}"
+                               th:href="@{/admin/transactions/{id}/pay-fine(id=${t.id})}"
+                               class="btn btn-sm btn-outline-warning"
+                               title="Mark Fine as Paid"
+                               onclick="return confirm('Mark fine as paid?')">
+                                <i class="bi bi-currency-rupee"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Pagination -->
+    <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center" th:if="${transactions.totalPages > 1}">
+        <small class="text-muted">
+            Page <span th:text="${currentPage + 1}"></span> of <span th:text="${transactions.totalPages}"></span>
+            (<span th:text="${transactions.totalElements}"></span> total)
+        </small>
+        <nav>
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/transactions(page=${currentPage - 1})}">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, transactions.totalPages - 1)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/transactions(page=${i})}" th:text="${i + 1}"></a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == transactions.totalPages - 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/transactions(page=${currentPage + 1})}">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,157 @@
+/* ─── Global ─────────────────────────────────────────────── */
+:root {
+    --bs-primary: #0d6efd;
+    --bs-success: #198754;
+    --font-main: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: #f4f6fb;
+    color: #333;
+}
+
+/* ─── Auth Pages ─────────────────────────────────────────── */
+.auth-page {
+    background: linear-gradient(135deg, #e8f0fe 0%, #f4f6fb 100%);
+}
+
+.auth-logo i {
+    filter: drop-shadow(0 4px 12px rgba(13, 110, 253, 0.25));
+}
+
+/* ─── Navbar ─────────────────────────────────────────────── */
+.navbar {
+    min-height: 60px;
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+}
+
+/* ─── Cards ──────────────────────────────────────────────── */
+.card {
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ─── Stat Icons ─────────────────────────────────────────── */
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ─── Tables ─────────────────────────────────────────────── */
+.table th {
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #6c757d;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.75rem 0.75rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.04);
+}
+
+/* ─── Book Cards (Catalog) ───────────────────────────────── */
+.book-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(13, 110, 253, 0.12) !important;
+}
+
+/* ─── Avatar Circle ──────────────────────────────────────── */
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #e3f0ff, #f0f4ff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ─── Badges ─────────────────────────────────────────────── */
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+/* ─── Forms ──────────────────────────────────────────────── */
+.form-control:focus,
+.form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+.form-label {
+    font-size: 0.875rem;
+    color: #495057;
+}
+
+/* ─── Buttons ────────────────────────────────────────────── */
+.btn {
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+/* ─── Alerts ─────────────────────────────────────────────── */
+.alert {
+    border: none;
+    border-left: 4px solid;
+    border-radius: 0.5rem;
+}
+
+.alert-success { border-left-color: #198754; background-color: #d1e7dd; }
+.alert-danger  { border-left-color: #dc3545; background-color: #f8d7da; }
+.alert-warning { border-left-color: #ffc107; background-color: #fff3cd; }
+.alert-info    { border-left-color: #0dcaf0; background-color: #cff4fc; }
+
+/* ─── Pagination ─────────────────────────────────────────── */
+.pagination .page-link {
+    color: #0d6efd;
+    border-color: #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+.footer {
+    font-size: 0.82rem;
+}
+
+/* ─── Responsive tweaks ──────────────────────────────────── */
+@media (max-width: 576px) {
+    .stat-icon { width: 44px; height: 44px; }
+    .fs-2 { font-size: 1.4rem !important; }
+}

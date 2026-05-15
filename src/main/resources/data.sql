@@ -6,11 +6,11 @@
 -- ─── Users ───────────────────────────────────────────────────────────────────
 
 INSERT INTO users (username, password, email, full_name, phone, address, role, is_blocked, created_at) VALUES
-('admin',   '$2b$10$gk8At3CDUcbpmjox1.509OP3o1ROahdlcx0JBTee1DlWUI0BQpEV2', 'admin@library.com',  'Library Administrator', '9999999999', 'Library Building, College Campus', 'ADMIN',  false, NOW()),
-('jatin',   '$2b$10$T7vkkZ9reWj15De4pY3Ph.2oVTFkw4ksIdezLmio4iZ698mqSU2TC', 'jatin@college.edu',  'Jatin Sharma',          '9876543210', '14 Green Park, Delhi',            'MEMBER', false, NOW()),
-('member1', '$2b$10$U5ZWMR11XOiBb/Ut6aIHSeZLA1gDHeTbTcOYTXBVmws5B.nw9YNPO', 'alice@college.edu',  'Alice Johnson',         '9123456780', '45 Park Street, Mumbai',          'MEMBER', false, NOW()),
-('member2', '$2b$10$U5ZWMR11XOiBb/Ut6aIHSeZLA1gDHeTbTcOYTXBVmws5B.nw9YNPO', 'bob@college.edu',    'Bob Smith',             '9001234567', '7 Lake View, Nashik',             'MEMBER', false, NOW()),
-('member3', '$2b$10$U5ZWMR11XOiBb/Ut6aIHSeZLA1gDHeTbTcOYTXBVmws5B.nw9YNPO', 'charlie@college.edu','Charlie Brown',         '9812345670', '22 Rose Garden, Nagpur',          'MEMBER', false, NOW());
+('admin',   '$2a$10$Gix4CgrjyQaKc3xWRuAOj.zzkCRZvklNmRTAk5R49Z/mhDZmGs3yi', 'admin@library.com',  'Library Administrator', '9999999999', 'Library Building, College Campus', 'ADMIN',  false, NOW()),
+('jatin',   '$2a$10$kc4SXHVbr1RxeNk3b.ZvSOos87S4Jh4zOE0M.Fl4l/1L7u2dhpK5e', 'jatin@college.edu',  'Jatin Sharma',          '9876543210', '14 Green Park, Delhi',            'MEMBER', false, NOW()),
+('member1', '$2a$10$uzI1jrVcgRsEwn6Xss3dduA51PiKwPgcmHsG3Cixk6.0MO55Al82K', 'alice@college.edu',  'Alice Johnson',         '9123456780', '45 Park Street, Mumbai',          'MEMBER', false, NOW()),
+('member2', '$2a$10$uzI1jrVcgRsEwn6Xss3dduA51PiKwPgcmHsG3Cixk6.0MO55Al82K', 'bob@college.edu',    'Bob Smith',             '9001234567', '7 Lake View, Nashik',             'MEMBER', false, NOW()),
+('member3', '$2a$10$uzI1jrVcgRsEwn6Xss3dduA51PiKwPgcmHsG3Cixk6.0MO55Al82K', 'charlie@college.edu','Charlie Brown',         '9812345670', '22 Rose Garden, Nagpur',          'MEMBER', false, NOW());
 
 -- ─── Books ───────────────────────────────────────────────────────────────────
 
